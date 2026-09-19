@@ -1,0 +1,40 @@
+name: Build and Push NGINX Image
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: denbue
+          password: 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
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/denbue/nginx-cicd-demo:1.0
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/denbue/nginx-cicd-demo:1.0:latest
+            ghcr.io/denbue/nginx-cicd-demo:1.0:${{ github.sha }}
