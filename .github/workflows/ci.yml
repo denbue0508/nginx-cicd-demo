@@ -21,14 +21,14 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: denbue
-          password: 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
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/denbue/nginx-cicd-demo:1.0
+          images: ghcr.io/${{ github.repository }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -36,5 +36,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/denbue/nginx-cicd-demo:1.0:latest
-            ghcr.io/denbue/nginx-cicd-demo:1.0:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
