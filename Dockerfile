@@ -1,5 +1,5 @@
 # Use the official lightweight Nginx Alpine image
-FROM nginx:alpine
+FROM nginx:1.16
 
 # Remove the default Nginx welcome page
 RUN rm -rf /usr/share/nginx/html/*
